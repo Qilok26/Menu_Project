@@ -20,14 +20,14 @@ def get_valid_input(prompt, validator=None):
         print("Invalid input, please try again.")
 
 def main():
-    restaurant = Restaurant("data/restaurant_data.json")
+    restaurant = Restaurant("/Users/siddiqikomou/PycharmProjects/Menu_Project/Project_Menu/data/restaurant_data.json")
     try:
         restaurant.load()
         print("Data loaded successfully.")
     except Exception as e:
         print("Error loading data: {}".format(e))  
         return
-    
+# kshadfkj;h;
     while True:
         display_menu()
         choice = get_valid_input("Choose an option (1-8): ", lambda x: x in "12345678")
