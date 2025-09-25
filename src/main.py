@@ -1,5 +1,6 @@
 from restaurant import Restaurant
 from menu_item import MenuItem
+import os
 
 def display_menu():
     print("\nRestaurant Manager")
@@ -20,7 +21,8 @@ def get_valid_input(prompt, validator=None):
         print("Invalid input, please try again.")
 
 def main():
-    restaurant = Restaurant("data/restaurant_data.json")
+    json_path = os.path.join(os.path.dirname(__file__), "..", "data", "restaurant_data.json")
+    restaurant = Restaurant(json_path)
     try:
         restaurant.load()
         print("Data loaded successfully.")
@@ -63,15 +65,13 @@ def main():
                     print("No items found.")
         
         elif choice == "3":
-            id_str = get_valid_input("Enter unique ID: ", lambda x: x.isdigit() and int(x) not in [item.id for item in restaurant.list_items()])
             name = get_valid_input("Enter name: ", lambda x: x != "")
             category = get_valid_input("Enter category: ", lambda x: x != "")
             price_str = get_valid_input("Enter price: ", lambda x: x.replace(".", "", 1).isdigit() and float(x) >= 0)
-            item = MenuItem(int(id_str), name, category, float(price_str))
-            if restaurant.add_item(item):
-                print("Item added successfully.")
-            else:
-                print("Failed to add item (ID conflict).")
+            in_stock = get_valid_input("In stock (true/false): ", lambda x: x.lower() in ["true", "false"]).lower() == "true"
+
+            item = restaurant.add_item(name, category, float(price_str), in_stock)
+            print(f"Item added successfully with ID {item.id}.")
         
         elif choice == "4":
             id_str = get_valid_input("Enter ID to update: ", lambda x: x.isdigit())

@@ -1,12 +1,14 @@
 from tkinter import Tk, Listbox, Button, END, simpledialog, messagebox
 from restaurant import Restaurant
+import os
 
 def main():
     app = Tk()
     app.title("Restaurant Manager")
     app.configure(bg="#1E3A5F")
 
-    restaurant = Restaurant("data/restaurant_data.json")
+    json_path = os.path.join(os.path.dirname(__file__), "..", "data", "restaurant_data.json")
+    restaurant = Restaurant(json_path)
     restaurant.load()
 
     listbox = Listbox(app, width=60, bg="#E0F0FF", fg="black", font=("Arial", 12))
